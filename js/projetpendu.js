@@ -1,13 +1,11 @@
 // declaration variable globale :
 let tablettre = ["informatique", "voyage", "fontaine", "musique", "piscine", "train", "moquette"];
-let tabAlphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 var scores = 7;
 let motMystère = "";
-let lettretrouver = "";
 
 // ------------------------- fonctions--------------------
 
-// 1 Le but ici est de générer un choix aléatoire de l'ordi
+//1 Le but ici est de générer un choix aléatoire de l'ordi
 function generateChoice() {
 let motRandom = Math.floor(Math.random() * Math.floor(tablettre.length));
 return tablettre[motRandom];
@@ -25,7 +23,7 @@ alert("merci de saisir une seule lettre");
 }
 };
 
-3 // fonction
+//3 fonction
 function test(){
 for (var i = 0; i < choixOrdi.length; i++) { //Le joueur a choisi une lettre qui va être checkée dans une boucle si y'a une correspondance et si oui (il l'a remplace + scores)
 if(choixOrdi.length.charAt(i) === choixPlayer){//si la lettre du joueur correspond au mot dans la boucle alors :
