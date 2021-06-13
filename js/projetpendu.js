@@ -1,88 +1,104 @@
 // declaration variable globale :
 let tablettre = ["informatique", "voyage", "fontaine", "musique", "piscine", "train", "moquette"];
 var scores = 7;
-let motMystère = "";
-// ------------------------- fonctions--------------------
-
-//1 Le but ici est de générer un choix aléatoire de l'ordi
-
-function generateChoice() {
-    let motRandom = Math.floor(Math.random() * Math.floor(tablettre.length));
-    return tablettre[motRandom];
+const commands = ["j","r","q"];
+//------------------------------------------------------MES FONCTIONS------------------------------------------------------------
+// 1 - function used to get choice user between "play", "rules" or "exit"
+function getChoiceUserCommand(){
+    do {
+        var userCommand = prompt("Voici les commandes disponibles: \n j : Jouer \n r : Règles \n q : quitter");
+    }
+    while(!commands.includes(userCommand));
+    return userCommand;
 };
 
-//2 function split le mot de l'ordi :
-
-function splitWord() {
-    let splitWord = Array.from(ChoixOrdi);
-    return splitWord;
+// 1bis - function used to generate a choice by the computer in the choicesCmp list
+function generateChoiceRandom(){
+    let random = Math.floor(Math.random() * Math.floor(tablettre.length));
+    return tablettre[random];
 };
 
-//Hide the word
-function hideTheWord () {
-    for (i = 0; i < choixOrdi.length; i++) {
-        let motMystère = motMystère + ' _ ';
-        return motMystère; //équivalent à la fonction (.push)
-        }
+// 2- function to divide the letters of the array into words: ["v","o","y","a","g","e"] => reference to the answerArray variable
+function makeNewArray(){
+    let newArr = Array.from(choiceComputer);
+    return newArr;
 };
 
-//3 fonction qui demande choix du joueur
-function askPlayerChoice() {
-    let choice = prompt("Faites votre choix d'une seule lettre entre a et z " );
-        if (choice.length === 1 && isNaN(choice)) {
-            return choice;
-        }
-        else {
-            alert("merci de saisir une seule lettre");
-        }
+//3 - function to hide letters with underscores: ["_ _ _ _ _ _ _"] => reference to the userResultArray variable
+function hideLetter(){
+    // display underscores
+    let resultArray=[];
+    for(i=0; i < answerArray.length; i++){
+        resultArray.push(" _ ");
+    }
+    return resultArray;
 };
 
-//4 fonction comparaison lettre joueur/ordi
-function comparaison(){
-    if(splitWord.includes(ChoixPlayer))
-    {
-        for(i = 0; i < splitWord.length; i++)
-        {
-            if(choixPlayer === splitWord[i])
-            { 
-                hideTheWord[i] = choixPlayer;
-                scores += 0;
-                alert("Super ! Ta lettre : " + choixPlayer + "' est présente! \n" + hideTheWord.join());
+//4 - function to check that the player has entered a letter and retrieve his chosen letter => userLetter variable
+function getUserLetter(){
+   for(let i = 0; i < 100 ; i++){
+    let choiceUser = prompt(userResultArray.join() + "\n merci de saisir une lettre (entre a et z)");
+    if (choiceUser.length === 1 && isNaN(choiceUser)){
+        return choiceUser.toLowerCase();
+    }
+    else{
+        alert("merci de saisir une seule lettre");
+    }
+   }    
+};
+
+//5 - function allowing to compare the selected letter with the word of the computer
+function compareLetterOnWord(){
+    if(answerArray.includes(userLetter)){
+        for(i = 0; i < answerArray.length; i++){
+            if(userLetter === answerArray[i]){ 
+                userResultArray[i] = userLetter;
+                alert("Oui la lettre '" + userLetter + "' est présente! \n" + userResultArray.join());
             }
         }
     }
-    else
-    {
-        scores -= 1
-        alert("Essaye encore ! Il ne te reste que :" + playerPoints);
+    else{
+        playerPoints -= 1
+        alert("Non la lettre n'est pas présente \nPoints restants : " + playerPoints);
         return false;
     }
 };
 
+function play(){
+    //Welcome
+    alert("C'est partis!"); 
+    choiceComputer = generateChoiceRandom();
+    answerArray = makeNewArray();
+    userResultArray = hideLetter();
+    while(scores > 0)
+    {
+        userLetter = getUserLetter();
+        compareLetterOnWord();
 
-// -------------------------------------- mon code ------------------------------
+            if(userResultArray.join() === answerArray.join()){
+                alert("Bravo, c'est gagné!");
+                break;
+            }
+        
+            else if(scores === 0){
+            alert("C'est perdu... \nLe mot a trouver était : " + choiceComputer)
+            } 
+    }
+};
 
-alert("Vous venez dans le monde terrifiant du jeu du pendu");
+//-------------------------------------------------- Rules && Play --------------------------------------------------------------------------------------
 
-let choixOrdi = generateChoice();
-let 
-alert("L'ordinateur a choisi ce mot :" + " " + motMystère);
-
-while (scores > 0){
-    choixPlayer = askPlayerChoice();
-    let comparaison = comparaison ();
-
-    if(hideTheWord.join() === splitWord.join()){
-        alert("tu es un ou une winner, tu as gagné un cookie!");
+while(true){
+    let choiceUserCommand = getChoiceUserCommand();
+    if(choiceUserCommand === "j"){
+        scores = 7;
+        play();
+    }
+    else if(choiceUserCommand === "r"){
+        alert("Voici les règles du jeu : Vous avez 7 coups pour gagner, si vous trouvez la bonne lettre, vous ne perdez pas de points. Bonne chance à vous !");
+    }
+    else{
+        alert("A bientôt peut-etre!");
         break;
     }
-    
-    // if the user's points fall to 0, the player has lost
-    else if(playerPoints === 0){
-        alert("C'est perdu... \nLe mot à trouver était : " + choixOrdi);
-    } 
 };
-//var str = "informatique";
-//console.log(str.split(""));
-//["i", "n", "f", "o", "r", "m", "a", "t", "i", "q", "u", "e"]
-//.join ?
